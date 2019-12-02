@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
+import csv
 def salvar_contato(nome, tel, email, ende):
     with open('contatos.csv', 'a') as file:
-        file.write(f"{nome},{tel},{email},{ende}\n") # Precisa do \n para pular uma linha
+            file.write(f"{nome},{tel},{email},{ende}\n")
+
 
 
 def inserir_contato():
@@ -26,9 +28,40 @@ def mostrar_contatos():
         print("Algo deu errado")
         print(error)
 
+def apagar_contato():
+    contato = input("Qual contato quer apagar? ")
+    contatos = []
+    aux = []
+    with open('contatos.csv','r') as file:
+        for lines in file:
+            contatos.append(lines.strip().split(','))
+    
+    ver = False
+    for n in contatos:
+        if contato in n[0]:
+            ver = True
+        else:
+            aux.append(n)
+    
+    if not ver:
+        print("Contato não encontrado")
+    else:
+        with open('contatos.csv', 'w') as file:
+            file.write("") # Precisa do \n para pular uma linha
+        print("Apagado com sucesso")
+    
+        for cont in aux:
+            nome = cont[0]
+            tel = cont[1]
+            email = cont[2]
+            endereco = cont[3]
+            salvar_contato(nome, tel, email,endereco)
+        
+        
 
 while True:
     print("\nOpção 1 - Inserir Contato")
+    print("Opção 3 - Apagar Contato")
     print("Opção 5 - Mostrar Contatos")
     print("Opção 0 - Sair")
     opcao = input("Digite uma opção: ")
@@ -37,7 +70,9 @@ while True:
             inserir_contato()
         except:
             print(f"\nContato inserido...")
-    if opcao == "5":
+    elif opcao == "3":
+        apagar_contato()
+    elif opcao == "5":
         mostrar_contatos()
     elif opcao == "0":
         break
