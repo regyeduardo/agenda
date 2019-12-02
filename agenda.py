@@ -56,12 +56,33 @@ def apagar_contato():
             email = cont[2]
             endereco = cont[3]
             salvar_contato(nome, tel, email,endereco)
+
+
+def buscar_contato():
+    contato = input("Qual contato quer buscar? ")
+    contatos = []
+    with open('contatos.csv','r') as file:
+        for lines in file:
+            contatos.append(lines.strip().split(','))
+    
+    ver = False
+    for n in contatos:
+        if contato in n[0]:
+            print(f"\nNome: {n[0]}")
+            print(f"Telefone: {n[1]}")
+            print(f"Email: {n[2]}")
+            print(f"Endereço: {n[3]}")
+            ver = True
+
+    if not ver:
+        print("Contato não encontrado")
         
         
 
 while True:
     print("\nOpção 1 - Inserir Contato")
     print("Opção 3 - Apagar Contato")
+    print("opção 4 - Buscar Contato")
     print("Opção 5 - Mostrar Contatos")
     print("Opção 0 - Sair")
     opcao = input("Digite uma opção: ")
@@ -72,6 +93,8 @@ while True:
             print(f"\nContato inserido...")
     elif opcao == "3":
         apagar_contato()
+    elif opcao == "4":
+        buscar_contato()
     elif opcao == "5":
         mostrar_contatos()
     elif opcao == "0":
