@@ -120,7 +120,24 @@ def exportar_contatos():
             email = cont[2].replace(","," ")
             ende = cont[3].replace(","," ")
             file.write(f"{nome},{tel},{email},{ende}\n")
+
+def importar_contatos():
     
+    try:
+        filename = input("Digite o nome do arquivo para importar: ")
+        with open(filename,'r') as file:
+            linhas = file.readlines()
+            for t in retorna_lista_contatos():
+                for linha in linhas:
+                    contatos = linha.strip().split(',')
+                    if contatos[0] not in t:
+                        nome = contatos[0]
+                        tel = contatos[1]
+                        email = contatos[2]
+                        ende = contatos[3]
+                        salvar_contato(nome, tel, email, ende)
+    except Exception as error:
+        print(error)
 
 while True:
     print("\nOpção 1 - Inserir Contato")
@@ -129,6 +146,7 @@ while True:
     print("opção 4 - Buscar Contato")
     print("Opção 5 - Mostrar Contatos")
     print("Opção 6 - Exportar Contatos")
+    print("Opção 7 - Importar Contatos")
     print("Opção 0 - Sair")
     opcao = input("Digite uma opção: ")
     if opcao == "1":
@@ -149,6 +167,8 @@ while True:
         mostrar_contatos()
     elif opcao == "6":
         exportar_contatos()
+    elif opcao == "7":
+        importar_contatos()
     elif opcao == "0":
         break
     else:
